@@ -3,6 +3,7 @@ package graphquestions;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.Arrays;
 import java.util.Iterator;
 
 class Node{
@@ -21,8 +22,8 @@ public class GraphImplementation {
     Node[] A=new Node[20];
     int closureMatrix[][] = new int[10][10];
     int checked[] = new int[20];
-    LinkedList<Integer> adjList[] =new LinkedList[20];
-   // LinkedList<Integer> list=new LinkedList<>();
+    LinkedList<Integer> adj[];
+    boolean visitedArray[] = new boolean[10];
     
     void graphUsingMatrix(){
         
@@ -193,66 +194,134 @@ public class GraphImplementation {
             }
         }
     }
+    
     void initialize(){
-        for(int i = 0; i < vertex ; i++){
-                adjList[i] = new LinkedList<>();
-            }
-    }
-    void undirectedGraph(int vertex1,int vertex2){
-        adjList[vertex1].addFirst(vertex2);
-        adjList[vertex2].addFirst(vertex1);
-    }
-    void display(){
-        for(int v = 0; v < vertex; v++)
-        {
-            System.out.print(v+")");
-            for(Integer pCrawl: adjList[v]){
-                System.out.print("->"+pCrawl);
-            }
-            System.out.print(" Length"+adjList[v].size());
-            System.out.println("\n");
+        for(int i=0;i<vertex;i++){
+            A[i] = new Node(i);
+            checked[i]=0;
         }
     }
+    
+    void undirectedGraph(int vertex1,int vertex2){
+        
+        Node newnode= new Node(vertex2);
+        if(A[vertex1].next==null)
+            A[vertex1].next=newnode;
+        else{
+            Node temp=A[vertex1];
+            while(temp.next!=null)
+                temp=temp.next;
+            temp.next=newnode;
+        }
+        
+        Node newnode2= new Node(vertex1);
+        if(A[vertex2].next==null)
+            A[vertex2].next=newnode2;
+        else{
+            Node temp=A[vertex2];
+            while(temp.next!=null)
+                temp=temp.next;
+            temp.next=newnode2;
+        }
+        
+    }
     void k_cores(int k){
-        int count,flag=0;
-        for(int i=0;i<vertex;i++)
-            checked[i]=0;
+        int flag=0,count;
         do{
             for(int i=0;i<vertex;i++){
-                if(adjList[i].size()<k){
-                    adjList[i].clear();
-                   // System.out.print("\n "+i);
-                    deleteValue(i);
-                    //display();
+                count=0;
+                Node temp=A[i].next;
+                while(temp!=null){
+                    count++;
+                    temp=temp.next;
                 }
-                else{
+
+                if(0<count && count<k){
+                    deleteValue(i);
+                }
+                if(count==0){
+                    checked[i]=1;
+                }
+                if(count>=k){
                     checked[i]=1;
                 }
             }
             for(int i=0;i<vertex;i++){
-                if(checked[i]==1)
+                if(checked[i]==1){
                     flag=1;
+                }
                 else{
                     flag=0;
+                    for(int j=0;j<vertex;j++){
+                        checked[j]=0;
+                    }
                     break;
                 }
             }
         }while(flag!=1);
-            
+        
     }
     
     void deleteValue(int num){
-        Iterator<Integer> itr;
-        for(int i = 0; i < vertex; i++){
-           // System.out.print(i+" ");
-            itr=adjList[i].listIterator();
-            while(itr.hasNext()){
-                if(itr.next()==num){
-                    adjList[i].remove();
-                    //itr.remove();
-                    checked[i]=0;
+        int count=0;
+        Node temp1,temp2=null,temp3=null;
+        for(int i=0;i<vertex;i++){
+            count=0;
+            Node temp=A[i].next;
+            while(temp!=null){
+                count++;
+                if(temp.data==num){
+                    if(count==1){
+                        A[i].next=temp.next;
+                        temp.next=null;
+                        break;
+                    }
+                    else if(temp.next==null){
+                        temp1=A[i].next;
+                        while(temp1.next!=null){
+                            temp2=temp1;
+                            temp1=temp1.next;
+                        }
+                        temp2.next=null;
+                        break;
+                    }
+                    else{
+                        temp3.next=temp.next;
+                        temp.next=null;
+                        break;
+                    }
+                }
+                temp3=temp;
+                temp=temp.next;
+            }
+        }
+    }
+    
+    void initializeArray(){
+        adj = new LinkedList[vertex];
+        for (int i = 0; i < vertex; ++i)
+            adj[i] = new LinkedList<>();
+        Arrays.fill(visitedArray, false);
+    }
+    
+    void addEdge(int vertex1,int vertex2){
+        adj[vertex1].add(vertex2);
+    }
+    
+    int countPath(int source,int destination,boolean visited[],int pathCount){
+        visited[source]=true;
+        if(source==destination)
+            pathCount++;
+        else{
+            Iterator<Integer> itr=adj[source].listIterator();
+            while (itr.hasNext()){
+                int n = itr.next();
+                if (!visited[n]){
+                    pathCount = countPath(n, destination,visited,pathCount);
                 }
             }
         }
+        visited[source] = false;
+        return pathCount;
     }
 }
