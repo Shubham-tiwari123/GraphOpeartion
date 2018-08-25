@@ -12,7 +12,8 @@ public class GraphQuestions {
             System.out.print("\n1.Create Graph Using Matrix\n"
                     + "2.Create Directed Graph using List\n3.Display Matrix Graph\n"
                     + "4.Display List Graph\n5.BFS\n6.Mother vertex\n"
-                    + "7.Transitive closure of a graph\n8.K-cores\n15.Exit");
+                    + "7.Transitive closure of a graph\n8.K-cores\n"
+                    + "9.Count path\n15.Exit");
             System.out.print("\nChoice:-");
             choice=sc.nextInt();
             switch(choice){
@@ -51,12 +52,22 @@ public class GraphQuestions {
                         graph.undirectedGraph(5,8);
                         graph.undirectedGraph(6,7);
                         graph.undirectedGraph(6,8);
-                        
-                       // graph.display();
                         System.out.print("\nEnter maximum edge for one node:-");
                         int edge=sc.nextInt();
                         graph.k_cores(edge);
-                        graph.display();
+                        graph.displayListGraph();
+                        break;
+                        
+                case 9: graph.vertex=4;
+                        graph.initializeArray();
+                        graph.addEdge(0, 1);
+                        graph.addEdge(0, 2);
+                        graph.addEdge(0, 3);
+                        graph.addEdge(2, 0);
+                        graph.addEdge(2, 1);
+                        graph.addEdge(1, 3);
+                        int countPath=graph.countPath(2, 3, graph.visitedArray, 0);
+                        System.out.print("\nNumber of path possible:-"+countPath);
                         break;
             }
         }while (choice!=15);
