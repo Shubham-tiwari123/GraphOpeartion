@@ -13,7 +13,8 @@ public class GraphQuestions {
                     + "2.Create Directed Graph using List\n3.Display Matrix Graph\n"
                     + "4.Display List Graph\n5.BFS\n6.Mother vertex\n"
                     + "7.Transitive closure of a graph\n8.K-cores\n"
-                    + "9.Count path\n15.Exit");
+                    + "9.Count path\n10.Stepping Number\n"
+                    + "11Roots of a tree which give minimum height\n15.Exit");
             System.out.print("\nChoice:-");
             choice=sc.nextInt();
             switch(choice){
@@ -68,6 +69,26 @@ public class GraphQuestions {
                         graph.addEdge(1, 3);
                         int countPath=graph.countPath(2, 3, graph.visitedArray, 0);
                         System.out.print("\nNumber of path possible:-"+countPath);
+                        break;
+                        
+                case 10:System.out.print("\nEnter n and m value:-");
+                        int n =sc.nextInt();
+                        int m = sc.nextInt();
+                        for(int i=n;i<=m;i++){
+                            if(graph.steppingNumber(n, m))
+                                System.out.print(i+" ");
+                        }
+                        break;
+                        
+                case 11:graph.vertex=6;
+                        graph.initialize();
+                        graph.undirectedGraph(0, 3);
+                        graph.undirectedGraph(1, 3);
+                        graph.undirectedGraph(4, 3);
+                        graph.undirectedGraph(2, 3);
+                        graph.undirectedGraph(5, 4);
+                        System.out.print("\n");
+                        graph.minimumHeight();
                         break;
             }
         }while (choice!=15);
