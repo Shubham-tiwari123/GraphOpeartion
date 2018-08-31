@@ -5,7 +5,8 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.Iterator;
-
+import java.util.ArrayList;
+import java.util.Collections;
 class Node{
     int data;
     Node next;
@@ -323,5 +324,48 @@ public class GraphImplementation {
         }
         visited[source] = false;
         return pathCount;
+    }
+    
+    boolean steppingNumber(int n,int m){
+        int prevDigit = -1;
+        while(n>0){
+            int currentDigit=n%10;
+            if(prevDigit!=-1){
+                if(Math.abs(currentDigit-prevDigit)!=1)
+                    return false;
+            }
+            n=n/10;
+            prevDigit=currentDigit;
+        }
+        return true;
+    }
+    
+    void minimumHeight(){
+        ArrayList<Integer> a= new ArrayList<>();
+        int count;
+        for(int i=0;i<vertex;i++){
+            count=0;
+            Node temp=A[i].next;
+            while(temp!=null){
+                count++;
+                temp=temp.next;
+            }
+            a.add(count);
+            
+        }
+        Collections.sort(a,Collections.reverseOrder());
+        int max1=a.remove(0);
+        int max2=a.remove(0);
+        for(int i=0;i<vertex;i++){
+            count=0;
+            Node temp=A[i].next;
+            while(temp!=null){
+                count++;
+                temp=temp.next;
+            }
+            if(count==max1||count==max2){
+                System.out.print("Root:-"+i);
+            }
+        }
     }
 }
