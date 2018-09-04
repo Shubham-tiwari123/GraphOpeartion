@@ -14,7 +14,11 @@ public class GraphQuestions {
                     + "4.Display List Graph\n5.BFS\n6.Mother vertex\n"
                     + "7.Transitive closure of a graph\n8.K-cores\n"
                     + "9.Count path\n10.Stepping Number\n"
-                    + "11Roots of a tree which give minimum height\n15.Exit");
+                    + "11Roots of a tree which give minimum height\n"
+                    + "12.Detect cycle in an directed graph\n"
+                    + "13.Detect cycle in an undirected graph\n"
+                    + "14Detect Cycle in a directed graph using colors"
+                    + "15\n25.Exit");
             System.out.print("\nChoice:-");
             choice=sc.nextInt();
             switch(choice){
@@ -90,8 +94,22 @@ public class GraphQuestions {
                         System.out.print("\n");
                         graph.minimumHeight();
                         break;
+
+		case 12:graph.graphUsingList();
+                        graph.detectCycle();
+                        break;
+                         
+                case 13:graph.graphUsingList();
+                        graph.displayListGraph();
+                        graph.detectCylceUndirectedGraph();
+                        break;
+                        
+                case 14:graph.graphUsingList();
+                        graph.displayListGraph();
+                        graph.checkLoopUsingColor();
+                        break;
             }
-        }while (choice!=15);
+        }while (choice!=25);
     }
     
 }
