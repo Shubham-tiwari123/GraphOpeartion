@@ -368,4 +368,74 @@ public class GraphImplementation {
             }
         }
     }
+
+    void detectCycle(){
+        boolean flag=false;
+        for(int i=0;i<vertex;i++){
+            Node temp=A[i].next;
+            while(temp!=null){
+                if(i==temp.data){
+                    flag=true;
+                    System.out.print("\nGraph contains loop");
+                    break;
+                }
+                temp=temp.next;
+            }
+        }
+        if(flag==false)
+            System.out.print("\nGraph does not contain loop");
+    }
+    
+    void detectCylceUndirectedGraph(){
+        boolean flag=false;
+        for(int i=0;i<vertex;i++){
+            Node temp=A[i].next;
+            Node temp1;
+            while(temp!=null){
+                temp1=A[temp.data].next;
+                while(temp1!=null){
+                    if(i==temp1.data){
+                        flag=true;
+                        break;
+                    }
+                    temp1=temp1.next;
+                }
+                if(flag){
+                    System.out.print("\nGraph contains loop");
+                    break;
+                }
+                temp=temp.next;
+            }
+        }
+        if(flag==false){
+            System.out.print("\n Graph does not contain loop");
+        }
+    }
+
+    void checkLoopUsingColor(){
+        boolean flag=false;
+        String color[] = new String[vertex];
+        for(int i=0;i<vertex;i++)
+            color[i]="WHITE";
+        
+        for(int i=0;i<vertex;i++){
+            Node temp=A[i].next;
+            while(temp!=null){
+                if(i==temp.data){
+                    color[temp.data]="GREY";
+                }
+                temp=temp.next;
+            }
+        }
+        for(int i=0;i<vertex;i++){
+            if(color[i]=="GREY"){
+                System.out.print("\nGraph Contains loop");
+                break;
+            }
+            else
+                flag=true;
+        }
+        if(flag)
+            System.out.print("\nNo loop");
+    }
 }
