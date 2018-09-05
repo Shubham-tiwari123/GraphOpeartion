@@ -17,8 +17,9 @@ public class GraphQuestions {
                     + "11Roots of a tree which give minimum height\n"
                     + "12.Detect cycle in an directed graph\n"
                     + "13.Detect cycle in an undirected graph\n"
-                    + "14Detect Cycle in a directed graph using colors"
-                    + "15\n25.Exit");
+                    + "14.Detect Cycle in a directed graph using colors\n"
+                    + "15.Check if there is a cycle with odd weight sum in an undirected graph\n"
+                    + "16.Cycles of length n in an undirected and connected graph\n17.Exit");
             System.out.print("\nChoice:-");
             choice=sc.nextInt();
             switch(choice){
@@ -108,8 +109,32 @@ public class GraphQuestions {
                         graph.displayListGraph();
                         graph.checkLoopUsingColor();
                         break;
+
+		case 15:graph.vertex=4;
+                        graph.intializeWeight();
+                        graph.createGraphUsingWeight(1, 2, 12);
+                        graph.createGraphUsingWeight(2, 3, 1);
+                        graph.createGraphUsingWeight(4, 3, 1);
+                        graph.createGraphUsingWeight(4, 1, 20);
+                        graph.displayWeightedGraph();
+                        if(graph.isOddSum())
+                            System.out.print("\nNo");
+                        else
+                            System.out.print("\nYes");
+                        break;
+                        
+                case 16:graph.vertex=5;    
+                        graph.initialize();
+                        graph.undirectedGraph(0, 1);
+                        graph.undirectedGraph(1, 2);
+                        graph.undirectedGraph(2, 3);
+                        graph.undirectedGraph(3, 4);
+                        graph.undirectedGraph(4, 1);
+                        graph.undirectedGraph(0, 3);
+                        graph.numberOfLoop();
+                        break;
             }
-        }while (choice!=25);
+        }while (choice!=17);
     }
     
 }
