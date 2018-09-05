@@ -16,6 +16,17 @@ class Node{
     }
 }
 
+class NodeWeight{
+    int key;
+    int weight;
+    NodeWeight link;
+    NodeWeight(int data,int weight) {
+       key =data;
+       this.weight=weight;
+       link=null;
+    }  
+}
+
 public class GraphImplementation {
     Scanner sc=new Scanner(System.in);
     int matA[][]=new int[10][10];
@@ -437,5 +448,102 @@ public class GraphImplementation {
         }
         if(flag)
             System.out.print("\nNo loop");
+    }
+    
+    void intializeWeight(){
+        for(int i=1;i<=vertex;i++){
+            B[i]=new NodeWeight(i,0);
+        }
+    }
+    
+    void createGraphUsingWeight(int vertex1,int vertex2,int weight){
+        //NodeWeight tempVar;
+        NodeWeight newnode= new NodeWeight(vertex2,weight);
+        if(B[vertex1].link==null)
+            B[vertex1].link=newnode;
+        else{
+            NodeWeight temp=B[vertex1];
+            while(temp.link!=null)
+                temp=temp.link;
+            temp.link=newnode;
+        }
+        
+        NodeWeight newnode2= new NodeWeight(vertex1,weight);
+        if(B[vertex2].link==null)
+            B[vertex2].link=newnode2;
+        else{
+            NodeWeight temp=B[vertex2];
+            while(temp.link!=null)
+                temp=temp.link;
+            temp.link=newnode2;
+        }
+    }
+    void displayWeightedGraph(){
+        for(int i=1;i<=vertex;i++){
+            NodeWeight temp=B[i].link;
+            while(temp!=null){
+                System.out.print("\n"+i+")->");
+                System.out.print(temp.key+" "+temp.weight);
+                temp=temp.link;
+            }
+        }
+    }
+    boolean isOddSum(){
+        int visitedNode[]=new int[vertex+1];
+        for(int i=1;i<=vertex;i++)
+            visitedNode[i]=0;
+        Queue<Integer> q=new LinkedList<>();
+        
+        for(int i=1;i<=vertex;i++){
+            NodeWeight temp=B[i].link;
+            while(temp!=null){
+                if(visitedNode[temp.key]==0){
+                    q.add(temp.weight);
+                    visitedNode[temp.key]=1;
+                    temp=temp.link;
+                }
+                else
+                    temp=temp.link;
+            }
+        }
+        int sum=0;
+        while(!q.isEmpty()){
+            sum=sum+q.poll();
+        }
+        if(sum%2==0)
+            return false;
+        return true;
+    }
+    
+    void numberOfLoop(){
+        Queue<Integer> q = new LinkedList<>();
+        Queue<Integer>q1=new LinkedList<>();
+        int visitedNode[]=new int[vertex];
+        
+        for(int i=0;i<vertex;i++){
+            q1.add(i);
+        }
+        
+        while(!q1.isEmpty()){
+            for(int i=0;i<vertex;i++){
+                visitedNode[i]=0;
+            }
+            for(int i=0;i<vertex;i++){
+                Node temp=A[i].next;
+                while(temp!=null){
+                    if(visitedNode[temp.data]==0){
+                    q.add(temp.data);
+                    visitedNode[temp.data]=1;
+                    temp=temp.next;
+                }
+                else
+                    temp=temp.next;
+                }
+            }
+            while(!q.isEmpty()){
+                System.out.print(q.poll()+" ");
+            }
+            q1.poll();
+        }   
     }
 }
